@@ -7,17 +7,34 @@ name = "ear-finder"
 version = "0.1.0"
 description = "Head localization for acoustic beamforming using Intel RealSense D455"
 requires-python = ">=3.10"
+# pyrealsense2 is NOT pip-installable on macOS arm64 — must be built from source.
+# See build instructions below.
 dependencies = [
-    "pyrealsense2",
+    # "pyrealsense2",  # installed manually, see below
     "mediapipe",
     "numpy",
     "opencv-python",
 ]
 
+# --- pyrealsense2 manual build (macOS arm64) ---
+# brew install librealsense cmake
+# git clone --depth 1 -b v2.57.7 https://github.com/IntelRealSense/librealsense /tmp/librealsense-src
+# mkdir /tmp/librealsense-build && cd /tmp/librealsense-build
+# cmake /tmp/librealsense-src -DBUILD_PYTHON_BINDINGS=ON -DBUILD_EXAMPLES=OFF \
+#   -DBUILD_GRAPHICAL_EXAMPLES=OFF -DCMAKE_BUILD_TYPE=Release \
+#   -DPYTHON_EXECUTABLE=$(which python)
+# make -j$(sysctl -n hw.logicalcpu) pyrealsense2
+# cp /tmp/librealsense-build/Release/pyrealsense2.cpython-311-darwin.so \
+#   .venv/lib/python3.11/site-packages/
+
+[tool.hatch.build.targets.wheel]
+packages = ["earfinder"]
+
 [project.optional-dependencies]
 dev = [
     "pytest",
     "ruff",
+    "debugpy",
 ]
 
 [project.scripts]
