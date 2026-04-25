@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ear-finder"
+version = "0.1.0"
+description = "Head localization for acoustic beamforming using Intel RealSense D455"
+requires-python = ">=3.10"
+dependencies = [
+    "pyrealsense2",
+    "mediapipe",
+    "numpy",
+    "opencv-python",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "ruff",
+]
+
+[project.scripts]
+ear-finder = "earfinder.__main__:main"
