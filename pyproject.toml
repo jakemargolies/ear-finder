@@ -28,7 +28,7 @@ dependencies = [
 #   .venv/lib/python3.11/site-packages/
 
 [tool.hatch.build.targets.wheel]
-packages = ["earfinder"]
+packages = ["earfinder", "netbridge"]
 
 [project.optional-dependencies]
 dev = [
@@ -39,3 +39,4 @@ dev = [
 
 [project.scripts]
 ear-finder = "earfinder.__main__:main"
+netbridge  = "netbridge.__main__:main"
