@@ -74,13 +74,13 @@ All tunable constants are in `matlab/config.m`. The most important ones:
 MODE = 'delay';   % 'delay' (local) or 'avdar' (GPU server)
 
 SPEAKER_POSITIONS_M = [
-   -0.0762, -0.08, 0.00;   % speaker 1 (leftmost)
-   -0.0254, -0.08, 0.00;   % speaker 2
-    0.0254, -0.08, 0.00;   % speaker 3
-    0.0762, -0.08, 0.00;   % speaker 4 (rightmost)
+   -0.075, -0.08, 0.00;   % speaker 1 (leftmost)
+   -0.025, -0.08, 0.00;   % speaker 2
+    0.025, -0.08, 0.00;   % speaker 3
+    0.075, -0.08, 0.00;   % speaker 4 (rightmost)
 ];
 % x = right, y = down, z = forward from camera, meters
-% 4-speaker 6-inch horizontal array, 8 cm above camera, same depth
+% 4-speaker array, 5 cm center-to-center, 8 cm above camera, same depth
 ```
 
 ---

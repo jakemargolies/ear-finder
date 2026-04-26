@@ -119,14 +119,14 @@ The AV-DAR server's `SPEAKER_POSITIONS` must also use this frame.
 
 ### Known speaker geometry
 
-4 speakers in an equally spaced horizontal line (~6 inches / 0.1524 m total),
-mounted 8 cm above the camera at the same depth:
+4 speakers, 5 cm center-to-center, 15 cm total span, mounted 8 cm above the
+camera at the same depth:
 
 ```
-Speaker:   1        2        3        4
-x (m):  -0.0762  -0.0254  +0.0254  +0.0762
-y (m):  -0.08    -0.08    -0.08    -0.08
-z (m):   0.00     0.00     0.00     0.00
+Speaker:   1       2       3       4
+x (m):  -0.075  -0.025  +0.025  +0.075
+y (m):  -0.08   -0.08   -0.08   -0.08
+z (m):   0.00    0.00    0.00    0.00
 ```
 
 ---
@@ -137,7 +137,7 @@ z (m):   0.00     0.00     0.00     0.00
 
 ```bash
 # Terminal 1 — laptop
-python -m netbridge          # (once netbridge is built)
+python -m netbridge
 
 # Or for testing without earfinder:
 python scripts/inject_position.py
@@ -171,7 +171,7 @@ beam_client()
 ## Key Numbers
 
 - Speed of sound: 343 m/s at ~20°C
-- Speaker spacing: 2 inches (0.0508 m)
-- Max inter-speaker delay: 0.0508 × 3 / 343 ≈ **0.44 ms**
+- Speaker spacing: 5 cm (0.05 m)
+- Max inter-speaker delay: 0.05 × 3 / 343 ≈ **0.44 ms**
 - MCHStreamer sample rate: ~48 kHz → 1 sample ≈ 20 µs delay resolution
 - AV-DAR server sample rate: 16 kHz (filters resampled to device rate in MATLAB)

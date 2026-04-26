@@ -19,13 +19,13 @@ MODE            = 'delay';
 % Spacing: 2 inches (0.0508 m) between adjacent speakers.
 % x positions are fixed; measure y (height) and z (distance forward
 % from camera) and replace the TODO values.
-% 4 speakers, equally spaced, 6-inch (0.1524 m) horizontal line.
-% Spacing: 2 inches (0.0508 m). Array center is 8 cm above camera, same depth.
+% 4 speakers, equally spaced, 5 cm center-to-center, 15 cm total span.
+% Array center is 8 cm above camera, same depth.
 SPEAKER_POSITIONS_M = [
-   -0.0762, -0.08,  0.00;   % speaker 1 (leftmost)
-   -0.0254, -0.08,  0.00;   % speaker 2
-    0.0254, -0.08,  0.00;   % speaker 3
-    0.0762, -0.08,  0.00;   % speaker 4 (rightmost)
+   -0.075, -0.08,  0.00;   % speaker 1 (leftmost)
+   -0.025, -0.08,  0.00;   % speaker 2
+    0.025, -0.08,  0.00;   % speaker 3
+    0.075, -0.08,  0.00;   % speaker 4 (rightmost)
 ];
 
 SPEED_OF_SOUND  = 343.0;   % m/s at ~20°C

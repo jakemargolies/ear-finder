@@ -18,28 +18,28 @@ speed_of_sound = 343.0   # m/s at ~20°C; adjust for actual room temp
 # from the camera lens in x (right+), y (down+), z (forward+).
 # 4 speakers, equally spaced, 6-inch (0.1524 m) horizontal line.
 # Spacing: 2 inches (0.0508 m). x positions fixed; measure y and z.
-# 4 speakers, equally spaced, 6-inch (0.1524 m) horizontal line.
+# 4 speakers, 5 cm center-to-center, 15 cm total span.
 # Array center is 8 cm above camera (y = -0.08), same depth (z = 0).
 [[room.speakers]]
 id = 1
-x = -0.0762
+x = -0.075
 y = -0.08
 z =  0.00
 
 [[room.speakers]]
 id = 2
-x = -0.0254
+x = -0.025
 y = -0.08
 z =  0.00
 
 [[room.speakers]]
 id = 3
-x =  0.0254
+x =  0.025
 y = -0.08
 z =  0.00
 
 [[room.speakers]]
 id = 4
-x =  0.0762
+x =  0.075
 y = -0.08
 z =  0.00
