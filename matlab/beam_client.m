@@ -155,24 +155,31 @@ end
 % ================================================================
 
 function [w, tau] = delay_sum_weights(rx_pos, spk_pos, c)
-% delay_sum_weights  Compute per-channel amplitude weights and delays.
+% delay_sum_weights  Compute per-channel delays using the standard far-field
+%                   linear array formula.
 %
-%   rx_pos  : [1×3] head position in meters (camera frame)
-%   spk_pos : [M×3] speaker positions in meters (same frame)
+%   For a horizontal linear array, only the lateral (x) position of each
+%   speaker and the steering angle to the listener matter:
+%
+%       sin(θ) = x_rx / sqrt(x_rx² + z_rx²)
+%       τ_i    = x_i · sin(θ) / c
+%
+%   rx_pos  : [1×3] head position in meters (camera frame: x=right, z=forward)
+%   spk_pos : [M×3] speaker positions in meters (only x column is used)
 %   c       : speed of sound in m/s
 %
-%   w   : [M×1] amplitude weights, normalized so max = 1
+%   w   : [M×1] amplitude weights (uniform — equidistant in far field)
 %   tau : [M×1] delays in seconds, normalized so min = 0
 
-    diffs = spk_pos - rx_pos;                  % [M, 3]
-    dists = sqrt(sum(diffs .^ 2, 2));          % [M, 1]
-    dists = max(dists, 1e-3);                  % guard divide-by-zero
+    x_rx = rx_pos(1);
+    z_rx = rx_pos(3);
 
-    tau = dists / c;
-    tau = tau - min(tau);                      % normalize: nearest speaker = 0
+    sin_theta = x_rx / sqrt(x_rx^2 + z_rx^2);
 
-    w = 1 ./ dists;
-    w = w / max(w);                            % normalize: loudest = 1
+    tau = spk_pos(:, 1) * sin_theta / c;     % [M, 1]
+    tau = tau - min(tau);                    % normalize: min delay = 0
+
+    w = ones(size(spk_pos, 1), 1);           % uniform weights in far field
 end
 
 
