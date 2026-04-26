@@ -55,10 +55,11 @@ function beam_client()
 
             % Default filter bank: pass-through until first server response.
             % filters is [L, 4]; each column is a FIR impulse response.
-            filters   = ones(1, NUM_CHANNELS);   % [1×4], scalar gain=1 per channel
-            zi        = init_filter_state(filters, NUM_CHANNELS);
-            seq_id    = int32(0);
-            fs_server = fs_device;
+            filters        = ones(1, NUM_CHANNELS);   % [1×4], scalar gain=1 per channel
+            zi             = init_filter_state(filters, NUM_CHANNELS);
+            seq_id         = int32(0);
+            fs_server      = fs_device;
+            last_request_t = tic - SERVER_REQUEST_INTERVAL;  % allow immediate first request
 
         otherwise
             error('beam_client: unknown MODE "%s". Set MODE to ''delay'' or ''avdar''.', MODE);
@@ -92,6 +93,10 @@ function beam_client()
                     rx_pos = [];
 
                 case 'avdar'
+                    if toc(last_request_t) < SERVER_REQUEST_INTERVAL
+                        rx_pos = [];   % too soon — discard, keep current filters
+                        continue
+                    end
                     req = struct( ...
                         'type',        'rx_pos', ...
                         'sequence_id', seq_id, ...
@@ -118,7 +123,8 @@ function beam_client()
                                 seq_id, rx_pos(1), rx_pos(2), rx_pos(3), ...
                                 size(filters,1), size(filters,2), resp.elapsed_ms);
 
-                            seq_id = seq_id + int32(1);
+                            seq_id         = seq_id + int32(1);
+                            last_request_t = tic;
                         else
                             fprintf('[warn] Server error: %s\n', resp.message);
                         end

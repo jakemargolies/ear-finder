@@ -24,10 +24,12 @@ end
 
 % --- TCP connection to AV-DAR beamforming server (avdar mode only) ---
 % Access via SSH tunnel: ssh -L 5005:127.0.0.1:5005 gpu-server
-SERVER_HOST     = '127.0.0.1';
-SERVER_PORT     = 5005;
-SERVER_TIMEOUT  = 5;        % seconds to wait for server response
-ALLOW_RESAMPLE  = true;     % resample FIR filters if server fs != device fs
+SERVER_HOST         = '127.0.0.1';
+SERVER_PORT         = 5005;
+SERVER_TIMEOUT      = 5;     % seconds to wait for server response
+ALLOW_RESAMPLE      = true;  % resample FIR filters if server fs != device fs
+SERVER_REQUEST_INTERVAL = 2.0;  % seconds between filter requests (avdar mode)
+                                 % set higher if inference is slow
 
 % --- UDP port that netbridge sends head position to ---
 % Payload: 12 bytes, little-endian float32[3] = [x, y, z] meters
