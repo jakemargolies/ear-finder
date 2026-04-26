@@ -1,0 +1,45 @@
+# room.toml — shared runtime configuration
+# All positions are in the RealSense camera coordinate frame:
+#   x = right, y = down, z = forward, units = meters
+#
+# REPLACE PLACEHOLDER VALUES with measurements from the actual room.
+
+[network]
+server_host   = "10.137.180.141"   # GPU server (marga)
+port_position = 5005     # laptop → server (XYZ position)
+port_weights  = 5006     # server → laptop (w[], tau[])
+port_matlab   = 5007     # netbridge → MATLAB (loopback)
+
+[room]
+speed_of_sound = 343.0   # m/s at ~20°C; adjust for actual room temp
+
+# Speaker positions relative to the RealSense camera.
+# Measure by physically locating each speaker and recording its offset
+# from the camera lens in x (right+), y (down+), z (forward+).
+# 4 speakers, equally spaced, 6-inch (0.1524 m) horizontal line.
+# Spacing: 2 inches (0.0508 m). x positions fixed; measure y and z.
+# 4 speakers, equally spaced, 6-inch (0.1524 m) horizontal line.
+# Array center is 8 cm above camera (y = -0.08), same depth (z = 0).
+[[room.speakers]]
+id = 1
+x = -0.0762
+y = -0.08
+z =  0.00
+
+[[room.speakers]]
+id = 2
+x = -0.0254
+y = -0.08
+z =  0.00
+
+[[room.speakers]]
+id = 3
+x =  0.0254
+y = -0.08
+z =  0.00
+
+[[room.speakers]]
+id = 4
+x =  0.0762
+y = -0.08
+z =  0.00

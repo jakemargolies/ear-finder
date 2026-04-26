@@ -5,3 +5,5 @@ dist/
 .venv/
 .env
 pose_landmarker.task
+*.log
+.DS_Store
