@@ -15,6 +15,13 @@ SPEAKER_X_M = [-0.075; -0.025; 0.025; 0.075];   % [4×1], left to right
 
 SPEED_OF_SOUND  = 343.0;   % m/s at ~20°C
 
+% --- Sample rate (mode-dependent) ---
+if strcmp(MODE, 'delay')
+    SAMPLE_RATE = 44100;
+else
+    SAMPLE_RATE = 16000;
+end
+
 % --- TCP connection to AV-DAR beamforming server (avdar mode only) ---
 % Access via SSH tunnel: ssh -L 5005:127.0.0.1:5005 gpu-server
 SERVER_HOST     = '127.0.0.1';
