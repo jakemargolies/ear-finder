@@ -52,8 +52,9 @@ function beam_client()
             srv = tcpclient(SERVER_HOST, SERVER_PORT, 'Timeout', SERVER_TIMEOUT);
             fprintf('beam_client: connected.\n\n');
 
-            % Default filter bank: identity (pass-through, equal on all channels)
-            filters   = ones(1, NUM_CHANNELS);
+            % Default filter bank: pass-through until first server response.
+            % filters is [L, 4]; each column is a FIR impulse response.
+            filters   = ones(1, NUM_CHANNELS);   % [1×4], scalar gain=1 per channel
             zi        = init_filter_state(filters, NUM_CHANNELS);
             seq_id    = int32(0);
             fs_server = fs_device;
@@ -227,7 +228,7 @@ function zi = init_filter_state(filters, num_ch)
     L  = size(filters, 1);
     zi = cell(1, num_ch);
     for ch = 1:num_ch
-        zi{ch} = zeros(max(L - 1, 1), 1);
+        zi{ch} = zeros(L - 1, 1);   % empty when L=1, which filter() accepts
     end
 end
 

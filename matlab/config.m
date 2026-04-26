@@ -6,7 +6,7 @@
 %           Only needs: netbridge + MATLAB.
 % 'avdar'  : AV-DAR matched-filter FIR via GPU server.
 %           Needs: SSH tunnel + GPU server + netbridge + MATLAB.
-MODE            = 'delay';
+MODE            = 'avdar';
 
 % --- Speaker x-positions along the horizontal array (meters, right = positive) ---
 % 4 speakers, 5 cm center-to-center, 15 cm total span, centered on camera.
@@ -17,7 +17,7 @@ SPEED_OF_SOUND  = 343.0;   % m/s at ~20°C
 
 % --- TCP connection to AV-DAR beamforming server (avdar mode only) ---
 % Access via SSH tunnel: ssh -L 5005:127.0.0.1:5005 gpu-server
-SERVER_HOST     = '10.137.180.141';
+SERVER_HOST     = '127.0.0.1';
 SERVER_PORT     = 5005;
 SERVER_TIMEOUT  = 5;        % seconds to wait for server response
 ALLOW_RESAMPLE  = true;     % resample FIR filters if server fs != device fs
