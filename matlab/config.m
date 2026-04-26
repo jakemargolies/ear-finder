@@ -8,25 +8,10 @@
 %           Needs: SSH tunnel + GPU server + netbridge + MATLAB.
 MODE            = 'delay';
 
-% --- Speaker positions (camera coordinate frame) ---
-% x = right, y = down, z = forward, units = meters.
-% Origin = RealSense camera lens.
-% REPLACE PLACEHOLDERS with measured values.
-%
-% Row order matches MCHStreamer channel order:
-%   row 1 -> channel 1, row 2 -> channel 2, etc.
-% 4 speakers, equally spaced, 6-inch (0.1524 m) horizontal line.
-% Spacing: 2 inches (0.0508 m) between adjacent speakers.
-% x positions are fixed; measure y (height) and z (distance forward
-% from camera) and replace the TODO values.
-% 4 speakers, equally spaced, 5 cm center-to-center, 15 cm total span.
-% Array center is 8 cm above camera, same depth.
-SPEAKER_POSITIONS_M = [
-   -0.075, -0.08,  0.00;   % speaker 1 (leftmost)
-   -0.025, -0.08,  0.00;   % speaker 2
-    0.025, -0.08,  0.00;   % speaker 3
-    0.075, -0.08,  0.00;   % speaker 4 (rightmost)
-];
+% --- Speaker x-positions along the horizontal array (meters, right = positive) ---
+% 4 speakers, 5 cm center-to-center, 15 cm total span, centered on camera.
+% Only x is needed for the far-field delay formula.
+SPEAKER_X_M = [-0.075; -0.025; 0.025; 0.075];   % [4×1], left to right
 
 SPEED_OF_SOUND  = 343.0;   % m/s at ~20°C
 

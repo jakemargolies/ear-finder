@@ -84,7 +84,7 @@ function beam_client()
 
                 case 'delay'
                     [w, tau] = delay_sum_weights( ...
-                        rx_pos, SPEAKER_POSITIONS_M, SPEED_OF_SOUND);
+                        rx_pos, SPEAKER_X_M, SPEED_OF_SOUND);
                     fprintf('  pos=[%+.2f %+.2f %+.2f]  tau_ms=[%.2f %.2f %.2f %.2f]\n', ...
                         rx_pos(1), rx_pos(2), rx_pos(3), tau*1e3);
                     rx_pos = [];
@@ -131,7 +131,7 @@ function beam_client()
         switch MODE
 
             case 'delay'
-                tones = apply_delay_sum(h, w, tau, fs_device, NUM_CHANNELS);
+                tones = apply_delay_sum(h, w, tau, fs_device);
 
             case 'avdar'
                 tones = zeros(N, NUM_CHANNELS);
@@ -154,51 +154,42 @@ end
 % Local functions
 % ================================================================
 
-function [w, tau] = delay_sum_weights(rx_pos, spk_pos, c)
-% delay_sum_weights  Compute per-channel delays using the standard far-field
-%                   linear array formula.
-%
-%   For a horizontal linear array, only the lateral (x) position of each
-%   speaker and the steering angle to the listener matter:
+function [w, tau] = delay_sum_weights(rx_pos, spk_x, c)
+% delay_sum_weights  Far-field linear array delay formula.
 %
 %       sin(θ) = x_rx / sqrt(x_rx² + z_rx²)
 %       τ_i    = x_i · sin(θ) / c
 %
-%   rx_pos  : [1×3] head position in meters (camera frame: x=right, z=forward)
-%   spk_pos : [M×3] speaker positions in meters (only x column is used)
-%   c       : speed of sound in m/s
+%   rx_pos : [1×3] head position in meters (x=right, z=forward)
+%   spk_x  : [M×1] speaker x-positions in meters
+%   c      : speed of sound in m/s
 %
-%   w   : [M×1] amplitude weights (uniform — equidistant in far field)
+%   w   : [M×1] uniform amplitude weights
 %   tau : [M×1] delays in seconds, normalized so min = 0
 
-    x_rx = rx_pos(1);
-    z_rx = rx_pos(3);
-
-    sin_theta = x_rx / sqrt(x_rx^2 + z_rx^2);
-
-    tau = spk_pos(:, 1) * sin_theta / c;     % [M, 1]
-    tau = tau - min(tau);                    % normalize: min delay = 0
-
-    w = ones(size(spk_pos, 1), 1);           % uniform weights in far field
+    sin_theta = rx_pos(1) / sqrt(rx_pos(1)^2 + rx_pos(3)^2);
+    tau = spk_x * sin_theta / c;
+    tau = tau - min(tau);
+    w   = ones(size(spk_x));
 end
 
 
-function tones = apply_delay_sum(h, w, tau, fs, num_ch)
+function tones = apply_delay_sum(h, w, tau, fs)
 % apply_delay_sum  Apply integer-sample delays and weights to mono signal h.
 %
-%   h       : [N×1] mono source chunk
-%   w       : [M×1] amplitude weights
-%   tau     : [M×1] delays in seconds (min = 0)
-%   fs      : sample rate
-%   num_ch  : number of channels M
+%   h    : [N×1] mono source chunk
+%   w    : [M×1] amplitude weights
+%   tau  : [M×1] delays in seconds (min = 0)
+%   fs   : sample rate
 %
-%   tones   : [N×M] multichannel output
+%   tones : [N×M] multichannel output
 
     N = length(h);
-    tones = zeros(N, num_ch);
+    M = length(w);
+    tones = zeros(N, M);
     delay_samples = round(tau * fs);
 
-    for ch = 1:num_ch
+    for ch = 1:M
         d = delay_samples(ch);
         if d == 0
             tones(:, ch) = w(ch) * h;
