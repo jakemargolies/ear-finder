@@ -2,7 +2,7 @@
 
 Real-time acoustic beamforming system. Tracks a person's head in 3D using an Intel RealSense D455 and steers a 4-channel speaker array to focus audio at their location.
 
-See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the full system diagram.
+![System Architecture](docs/assets/system_architecture.png)   
 
 ---
 
